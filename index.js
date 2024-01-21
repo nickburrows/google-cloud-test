@@ -13,12 +13,11 @@ functions.http("helloHttp", (req, res) => {
   res.send(`Hello ${escapeHtml(req.query.name || req.body.name || "World")}!`);
 });
 
-functions.http("webhook", (req, res) => {
+functions.http("callback", (req, res) => {
   Promise.all(req.body.events.map(handleEvent))
     .then(result => res.json(result))
     .catch(err => {
       console.error(err);
-      res.status(err.status || 500).send(err.mesage);
       res.status(500).end();
     });
 });
@@ -33,5 +32,8 @@ function handleEvent(event) {
   const echo = { type: "text", text: event.message.text };
 
   // use reply API
-  return client.replyMessage(event.replyToken, echo);
+  return client.replyMessage({
+    replyToken: event.replyToken,
+    messages: [echo],
+  });
 }
