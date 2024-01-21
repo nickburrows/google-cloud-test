@@ -7,13 +7,15 @@ const config = {
   channelSecret: process.env.LINE_CHANNEL_SECRET,
 };
 
-const client = new line.messagingApi.MessagingApiClient(config);
+const client = new line.messagingApi.MessagingApiClient({
+  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+});
 
 functions.http("helloHttp", (req, res) => {
   res.send(`Hello ${escapeHtml(req.query.name || req.body.name || "World")}!`);
 });
 
-functions.http("callback", (req, res) => {
+functions.http("callback", line.middleware(config), (req, res) => {
   Promise.all(req.body.events.map(handleEvent))
     .then(result => res.json(result))
     .catch(err => {
