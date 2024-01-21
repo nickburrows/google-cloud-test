@@ -8,6 +8,7 @@
   "dependencies": {
     "@google-cloud/debug-agent": "^9.0.0",
     "@google-cloud/functions-framework": "^3.3.0",
+    "@google-cloud/logging": "^11.0.0",
     "@josephg/resolvable": "^1.0.1",
     "@line/bot-sdk": "^8.2.0",
     "axios": "^1.6.5",

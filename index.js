@@ -1,5 +1,5 @@
-const functions = require('@google-cloud/functions-framework');
-const escapeHtml = require('escape-html');
+const functions = require("@google-cloud/functions-framework");
+const escapeHtml = require("escape-html");
 const line = require("@line/bot-sdk");
 
 const config = {
@@ -9,16 +9,16 @@ const config = {
 
 const client = new line.messagingApi.MessagingApiClient(config);
 
-functions.http('helloHttp', (req, res) => {
-  res.send(`Hello ${escapeHtml(req.query.name || req.body.name || 'World')}!`);
+functions.http("helloHttp", (req, res) => {
+  res.send(`Hello ${escapeHtml(req.query.name || req.body.name || "World")}!`);
 });
 
-functions.http('webhook', (req, res) => {
+functions.http("webhook", (req, res) => {
   Promise.all(req.body.events.map(handleEvent))
     .then(result => res.json(result))
     .catch(err => {
-      log(`ERROR`, err);
-      res.status(err.status || 500).send(err.mesage)
+      console.error(err);
+      res.status(err.status || 500).send(err.mesage);
       res.status(500).end();
     });
 });
