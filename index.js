@@ -19,55 +19,27 @@ functions.http("helloHttp", (req, res) => {
 
 functions.http("callback", (req, res) => {
   lineMiddleware(req, res, err => {
-    if (err) {
-      console.error(err);
-      res.status(500).end();
-    } else {
-      Promise.all(req.body.events.map(handleEvent))
-        .then(result => res.json(result))
-        .catch(err => {
-          console.error(err);
-          res.status(500).end();
-        });
-    }
+    Promise.all(req.body.events.map(handleEvent))
+      .then(result => res.json(result))
+      .catch(err => {
+        console.error(err);
+        res.status(500).end();
+      });
   });
 });
 
 function handleEvent(event) {
-  switch (event.type) {
-    case "message":
-      return handleMessage(event);
-    case "follow":
-      return handleFollow(event);
-    // 您可以在此添加更多事件類型的處理
-    default:
-      return Promise.resolve(null);
-  }
-}
-
-function handleMessage(event) {
-  if (event.message.type === "text") {
-    let response;
-
-    switch (event.message.text.toLowerCase()) {
-      case "hi":
-        response = { type: "text", text: "A" }; // 當收到 "Hi" 時回應 "A"
-        break;
-      case "bye":
-        response = { type: "text", text: "B" }; // 當收到 "Bye" 時回應 "B"
-        break;
-      default:
-        response = { type: "text", text: "我不明白您的意思。" }; // 其他情況的預設回應
-    }
-
-    return client.replyMessage(event.replyToken, [response]);
+  if (event.type !== "message" || event.message.type !== "text") {
+    // ignore non-text-message event
+    return Promise.resolve(null);
   }
 
-  return Promise.resolve(null);
-}
+  // create a echoing text message
+  const echo = { type: "text", text: event.message.text };
 
-function handleFollow(event) {
-  // 處理關注事件
-  // ...
-  return Promise.resolve(null);
+  // use reply API
+  return client.replyMessage({
+    replyToken: event.replyToken,
+    messages: [echo],
+  });
 }
