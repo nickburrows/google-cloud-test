@@ -41,8 +41,8 @@
     "lint": "eslint --ext .js --fix .",
     "localhost-run": "autossh -M 0 -o ServerAliveInterval=60 -o ServerAliveCountMax=3 -o StrictHostKeyChecking=no -R 80:localhost:3000 nokey@localhost.run",
     "repl": "node --experimental-repl-await repl.js",
-    "start": "functions-framework --port=3000 --target=leafrainsuns --signature-type=http",
-    "dev": "npx functions-framework --target=leafrainsuns --env-vars-file=.env.yaml --signature-type=http",
+    "start": "functions-framework --port=3000 --target=leafrainsuns --env-vars-file=.env.yaml --signature-type=http",
+    "dev": "npx functions-framework --port=80 --env-vars-file=.env.yaml --target=callback --signature-type=http",
     "test": "jest"
   }
 }
