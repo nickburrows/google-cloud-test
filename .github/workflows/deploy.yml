@@ -44,18 +44,18 @@ jobs:
           path: './'
           destination: 'gcf_static/leafrainsuns'
 
-      - id: 'deploy'
-        name: 部署到 Google Cloud Functions
-        uses: 'google-github-actions/deploy-cloud-functions@v2'
-        with:
-          name: 'leafrainsuns'
-          runtime: 'nodejs20'
-          entry_point: 'callback'
-          memory_mb: '128Mi'
-          region: 'asia-east1'
-          env_vars_file: '.env.yaml'
-          max_instances: 1
+      # - id: 'deploy'
+      #   name: 部署到 Google Cloud Functions
+      #   uses: 'google-github-actions/deploy-cloud-functions@v2'
+      #   with:
+      #     name: 'leafrainsuns'
+      #     runtime: 'nodejs20'
+      #     entry_point: 'callback'
+      #     memory_mb: '128Mi'
+      #     region: 'asia-east1'
+      #     env_vars_file: '.env.yaml'
+      #     max_instances: 1
 
-      # - name: 部署到 Google Cloud Functions
-      #   run: >-
-      #     gcloud functions deploy leafrainsuns --allow-unauthenticated --entry-point=callback --env-vars-file=.env.yaml --gen2 --max-instances=1 --memory=128Mi --no-user-output-enabled --region=asia-east1 --runtime=nodejs20 --timeout=60s --trigger-http
+      - name: 部署到 Google Cloud Functions
+        run: >-
+          gcloud functions deploy leafrainsuns --allow-unauthenticated --entry-point=callback --env-vars-file=.env.yaml --gen2 --max-instances=1 --memory=128Mi --no-user-output-enabled --region=asia-east1 --runtime=nodejs20 --timeout=60s --trigger-http
