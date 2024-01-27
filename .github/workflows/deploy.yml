@@ -23,8 +23,10 @@ jobs:
           service_account: "mySAnicklin@react-translate-app-410021.iam.gserviceaccount.com"
       # https://github.com/google-github-actions/setup-gcloud
       # https://github.com/google-github-actions/auth#setting-up-workload-identity-federation
+
       - name: 設定 Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
+
       - name: 建立 GCF 環境變數檔案
         shell: bash
         run: |
@@ -34,6 +36,15 @@ jobs:
           ENV_PROD: ${{ secrets.ENV_PROD }}
       # https://cloud.google.com/functions/docs/deploy
       # 請在這個網頁查看自動佈署的參數說明
+      
+      - id: 'upload-file'
+        uses: 'google-github-actions/upload-cloud-storage@v2'
+        with:
+          path: 'static'
+          destination: 'gcf_static/static'
+
       - name: 部署到 Google Cloud Functions
         run: >-
           gcloud functions deploy leafrainsuns --allow-unauthenticated --entry-point=callback --env-vars-file=.env.yaml --gen2 --max-instances=1 --memory=128Mi --no-user-output-enabled --region=asia-east1 --runtime=nodejs20 --timeout=60s --trigger-http
+
+    
