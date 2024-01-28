@@ -37,24 +37,12 @@ jobs:
       # https://cloud.google.com/functions/docs/deploy
       # 請在這個網頁查看自動佈署的參數說明
 
-      - id: 'upload-file'
-        name: '上傳檔案到Google Cloud Storage'
-        uses: 'google-github-actions/upload-cloud-storage@v2'
-        with:
-          path: './'
-          destination: 'gcf_static/leafrainsuns'
-
-      # - id: 'deploy'
-      #   name: 部署到 Google Cloud Functions
-      #   uses: 'google-github-actions/deploy-cloud-functions@v2'
+      # - id: 'upload-file'
+      #   name: '上傳檔案到Google Cloud Storage'
+      #   uses: 'google-github-actions/upload-cloud-storage@v2'
       #   with:
-      #     name: 'leafrainsuns'
-      #     runtime: 'nodejs20'
-      #     entry_point: 'callback'
-      #     memory_mb: '128Mi'
-      #     region: 'asia-east1'
-      #     env_vars_file: '.env.yaml'
-      #     max_instances: 1
+      #     path: './'
+      #     destination: 'gcf_static/leafrainsuns'
 
       - name: 部署到 Google Cloud Functions
         run: >-
